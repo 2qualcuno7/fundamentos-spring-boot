@@ -2,6 +2,7 @@ package com.fundamentosplatzi.springboot.fundamentos;
 
 import com.fundamentosplatzi.springboot.fundamentos.bean.MyBean;
 import com.fundamentosplatzi.springboot.fundamentos.bean.MyBeanWithDependency;
+import com.fundamentosplatzi.springboot.fundamentos.bean.MyBeanWithProperties;
 import com.fundamentosplatzi.springboot.fundamentos.bean.MyOwnBean;
 import com.fundamentosplatzi.springboot.fundamentos.component.ComponentDependency;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,12 +17,14 @@ public class FundamentosApplication implements CommandLineRunner {
 	private MyBean myBean;
 	private MyBeanWithDependency myBeanWithDependency;
 	private MyOwnBean myOwnBean;
+	private MyBeanWithProperties myBeanWithProperties;
 
-	public FundamentosApplication(@Qualifier("componentTwoImplement") ComponentDependency componentDependency, MyBean myBean, MyBeanWithDependency myBeanWithDependency, MyOwnBean myOwnBean){
+	public FundamentosApplication(@Qualifier("componentTwoImplement") ComponentDependency componentDependency, MyBean myBean, MyBeanWithDependency myBeanWithDependency, MyOwnBean myOwnBean, MyBeanWithProperties myBeanWithProperties){
 		this.componentDependency = componentDependency;
 		this.myBean = myBean;
 		this.myBeanWithDependency = myBeanWithDependency;
 		this.myOwnBean = myOwnBean;
+		this.myBeanWithProperties = myBeanWithProperties;
 	}
 
 	public static void main(String[] args) {
@@ -34,5 +37,6 @@ public class FundamentosApplication implements CommandLineRunner {
 		myBean.print();
 		myBeanWithDependency.printWithDependency();
 		myOwnBean.multi(2);
+		System.out.println(myBeanWithProperties.function());
 	}
 }

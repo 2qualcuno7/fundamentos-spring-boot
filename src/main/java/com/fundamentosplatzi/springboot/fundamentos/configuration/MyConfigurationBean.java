@@ -18,4 +18,8 @@ public class MyConfigurationBean {
     public MyBeanWithDependency beanSumWithDependency(MyOperation myOperation){
         return new MyBeanWithDepedencyImplement(myOperation);
     }
+    @Bean
+    public MyOwnBean myOwnBeanOperation(MyOperation myOperation){
+        return new MyOwnBeanImplement(myOperation);
+    }
 }

@@ -103,5 +103,10 @@ public class FundamentosApplication implements CommandLineRunner {
 		LOGGER.info("Usuario con querys 2 parametros: "+
 				userRepository.findByEmailAndName("five@example.com", "Five").
 				orElseThrow(()-> new RuntimeException(("No hay usuario con esos dos"))));
+
+		userRepository.findByNameLike("F%")
+				.stream()
+				.forEach(user -> LOGGER.info("Usuario por name like Query method: "
+				+ user));
 	}
 }

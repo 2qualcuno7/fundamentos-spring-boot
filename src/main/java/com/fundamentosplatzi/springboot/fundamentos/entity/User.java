@@ -38,7 +38,7 @@ public class User {
         this.birthday = birthday;
     }
 
-    public User(String name, String email, LocalDate brithday) {
+    public User(String name, String email, LocalDate birthday) {
         this.name = name;
         this.email = email;
         this.birthday = birthday;

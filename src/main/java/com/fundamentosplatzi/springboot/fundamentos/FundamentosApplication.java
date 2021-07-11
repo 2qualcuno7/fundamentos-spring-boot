@@ -108,5 +108,15 @@ public class FundamentosApplication implements CommandLineRunner {
 				.stream()
 				.forEach(user -> LOGGER.info("Usuario por name like Query method: "
 				+ user));
+
+		userRepository.findByNameOrEmail("jkasd", "six@example.com")
+				.stream()
+				.forEach(user -> LOGGER.info("Usuario hallado con OR: "
+				+ user));
+
+		userRepository.findByBirthdayBetween(LocalDate.of(2020, 01, 01), LocalDate.of(2021, 12, 30))
+				.stream()
+				.forEach(user -> LOGGER.info("Usuarios nacidos entre 2020 y 2021: "
+				+ user));
 	}
 }

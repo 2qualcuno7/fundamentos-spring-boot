@@ -125,5 +125,9 @@ public class FundamentosApplication implements CommandLineRunner {
 						"Usuario query method like y ordenado"
 						+ user
 				));
+
+		LOGGER.info("Named parameter query user found: "
+				+ userRepository.getAllByBirthdayAndEmail(LocalDate.of(2021,07,7), "seven@example.com")
+				.orElseThrow(() -> new RuntimeException("No hay usuarios con eso")));
 	}
 }

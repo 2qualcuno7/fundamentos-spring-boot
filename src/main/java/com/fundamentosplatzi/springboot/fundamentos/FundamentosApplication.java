@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -51,6 +52,7 @@ public class FundamentosApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		//previousPractice();
 		saveUserInDb();
+		getUserInfoJPQL();
 	}
 
 	private void previousPractice(){
@@ -81,5 +83,16 @@ public class FundamentosApplication implements CommandLineRunner {
 		User userTen = new User("Ten", "ten@example.com", LocalDate.of(2021,07,10));
 		List<User> list=Arrays.asList(userOne, userTwo, userThree, userFour, userFive, userSix, userSeven, userEight, userNine, userTen);
 		list.stream().forEach(userRepository::save);
+	}
+
+	private void getUserInfoJPQL(){
+		LOGGER.info("El usuario encontrado es: " +
+				userRepository.findUserByEmail("one@example.com").
+				orElseThrow(()-> new RuntimeException("Usuario no encontrado")));
+
+		userRepository.findAndSort("T", Sort.by("name").descending())
+				.stream()
+				.forEach(user -> LOGGER.info("Usuarios encontrados y ordenados"
+				+ user));
 	}
 }

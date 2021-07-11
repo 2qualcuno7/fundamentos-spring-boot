@@ -118,5 +118,12 @@ public class FundamentosApplication implements CommandLineRunner {
 				.stream()
 				.forEach(user -> LOGGER.info("Usuarios nacidos entre 2020 y 2021: "
 				+ user));
+
+		userRepository.findByNameLikeOrderByIdDesc("T%")
+				.stream()
+				.forEach(user -> LOGGER.info(
+						"Usuario query method like y ordenado"
+						+ user
+				));
 	}
 }

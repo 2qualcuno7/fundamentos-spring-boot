@@ -38,6 +38,12 @@ public class User {
         this.birthday = birthday;
     }
 
+    public User(String name, String email, LocalDate brithday) {
+        this.name = name;
+        this.email = email;
+        this.birthday = birthday;
+    }
+
     public Long getId() {
         return id;
     }

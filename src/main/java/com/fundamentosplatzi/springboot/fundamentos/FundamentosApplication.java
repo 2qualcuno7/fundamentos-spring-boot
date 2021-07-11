@@ -8,6 +8,7 @@ import com.fundamentosplatzi.springboot.fundamentos.component.ComponentDependenc
 import com.fundamentosplatzi.springboot.fundamentos.entity.User;
 import com.fundamentosplatzi.springboot.fundamentos.pojo.UserPojo;
 import com.fundamentosplatzi.springboot.fundamentos.repository.UserRepository;
+import com.fundamentosplatzi.springboot.fundamentos.service.UserService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,8 +34,11 @@ public class FundamentosApplication implements CommandLineRunner {
 	private MyBeanWithProperties myBeanWithProperties;
 	private UserPojo userPojo;
 	private UserRepository userRepository;
+	private UserService userService;
 
-	public FundamentosApplication(@Qualifier("componentTwoImplement") ComponentDependency componentDependency, MyBean myBean, MyBeanWithDependency myBeanWithDependency, MyOwnBean myOwnBean, MyBeanWithProperties myBeanWithProperties, UserPojo userPojo, UserRepository userRepository){
+	public FundamentosApplication(@Qualifier("componentTwoImplement") ComponentDependency componentDependency, MyBean myBean,
+								  MyBeanWithDependency myBeanWithDependency, MyOwnBean myOwnBean, MyBeanWithProperties myBeanWithProperties,
+								  UserPojo userPojo, UserRepository userRepository, UserService userService){
 		this.componentDependency = componentDependency;
 		this.myBean = myBean;
 		this.myBeanWithDependency = myBeanWithDependency;
@@ -42,6 +46,7 @@ public class FundamentosApplication implements CommandLineRunner {
 		this.myBeanWithProperties = myBeanWithProperties;
 		this.userPojo = userPojo;
 		this.userRepository = userRepository;
+		this.userService = userService;
 	}
 
 	public static void main(String[] args) {
@@ -53,6 +58,7 @@ public class FundamentosApplication implements CommandLineRunner {
 		//previousPractice();
 		saveUserInDb();
 		getUserInfoJPQL();
+		saveWithErrorTransactional();
 	}
 
 	private void previousPractice(){
@@ -129,5 +135,20 @@ public class FundamentosApplication implements CommandLineRunner {
 		LOGGER.info("Named parameter query user found: "
 				+ userRepository.getAllByBirthdayAndEmail(LocalDate.of(2021,07,7), "seven@example.com")
 				.orElseThrow(() -> new RuntimeException("No hay usuarios con eso")));
+	}
+
+	private void saveWithErrorTransactional(){
+		User transactional1 = new User("T1", "t1@example.com", LocalDate.of(2020,01,01));
+		User transactional2 = new User("T2", "t2@example.com", LocalDate.of(2020,01,02));
+		User transactional3 = new User("T3", "t3@example.com", LocalDate.of(2020,01,03));
+		User transactional4 = new User("T4", "t4@example.com", LocalDate.of(2020,01,04));
+
+		List<User> users= Arrays.asList(transactional1, transactional2, transactional3, transactional4);
+		userService.saveTransactional(users);
+		userService.getAllUsers().stream()
+		.forEach(user -> LOGGER.info(
+				"Usuario del método transaccional"
+				+ user
+		));
 	}
 }
